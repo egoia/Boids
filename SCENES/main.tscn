@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dh1tctn0nyccu"]
+
+[ext_resource type="Script" uid="uid://dw34h27ur3vi5" path="res://SCRIPT/bounding_box.gd" id="1_xh1h4"]
+[ext_resource type="PackedScene" uid="uid://dkk3f5go2v8e3" path="res://SCENES/fishoid.tscn" id="2_ac0l5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ac0l5"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_i3vxn"]
+sky_material = SubResource("ProceduralSkyMaterial_ac0l5")
+
+[sub_resource type="Environment" id="Environment_jsldp"]
+background_mode = 2
+sky = SubResource("Sky_i3vxn")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ac0l5"]
+transparency = 1
+albedo_color = Color(0.43, 0.4585, 1, 0.113725)
+
+[node name="MAIN" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jsldp")
+
+[node name="BoundingBox" type="Node3D" parent="."]
+script = ExtResource("1_xh1h4")
+box_size = Vector3(10, 10, 10)
+
+[node name="Fishoid" parent="BoundingBox" instance=ExtResource("2_ac0l5")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(10, 10, 10)
+material = SubResource("StandardMaterial3D_ac0l5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.33892, 0.620591, 0, 0.877649, 0.479305, -0.707107, -0.33892, 0.620591, 11.1919, 8.71419, 11.5549)
+current = true

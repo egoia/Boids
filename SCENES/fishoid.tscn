@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkk3f5go2v8e3"]
+
+[ext_resource type="Script" uid="uid://dh3glaqxsnrlb" path="res://SCRIPT/fishoid.gd" id="1_2eug1"]
+[ext_resource type="ArrayMesh" uid="uid://cgim6wtt50t85" path="res://VISUALS/MODELS/fish.res" id="2_8c5cs"]
+
+[node name="Fishoid" type="Node3D"]
+script = ExtResource("1_2eug1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_8c5cs")

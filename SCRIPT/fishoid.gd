@@ -24,15 +24,15 @@ var boids : Array[Fishoid]
 
 func _ready() -> void:
 	direction  = -transform.basis.z
-	print(direction)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	find_direction()
+	var steering_direction = find_direction()
 	global_position += direction * speed * delta
+	direction += steering_speed * steering_direction * delta
 	look_at(global_position + direction, transform.basis.y)
 
-func find_direction() -> void :
+func find_direction() -> Vector3 :
 	#filter with boid fov and distance
 	var alignment_boids : Array[Fishoid] = []
 	var repulsion_boids : Array[Fishoid] = []
@@ -48,16 +48,24 @@ func find_direction() -> void :
 				cohesion_boids.append(boid)
 				
 	var target_direction = (cohesion_factor*cohesion(cohesion_boids) + alignment_factor*alignment(alignment_boids) + repulsion_factor*repulsion(repulsion_boids)).normalized()
+	if target_direction==Vector3.ZERO :
+		return Vector3.ZERO
 	var steering_direction = (target_direction - direction).normalized()
-	direction += steering_speed * steering_direction
-
+	return steering_direction
+	
 func cohesion(boids : Array[Fishoid]) -> Vector3: 
+	if boids.size() == 0 :
+		return Vector3()
 	return boids.reduce(func(acc, b) : return acc+b.direction, Vector3())/boids.size()
 	
 func repulsion(boids : Array[Fishoid]) -> Vector3: 
-	return (boids.reduce(func(b) : return b.global_position - global_position, Vector3())/boids.size()).normalized()
+	if boids.size() == 0 :
+		return Vector3()
+	return -(boids.reduce(func(acc, b) : return b.global_position - global_position +acc, Vector3())/boids.size()).normalized()
 	
 func alignment(boids : Array[Fishoid]) -> Vector3: #TODO
+	if boids.size() == 0 :
+		return Vector3()
 	return Vector3.ZERO
 	
 func is_in_sight(boid : Node3D) -> bool: #TODO

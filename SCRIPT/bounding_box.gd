@@ -8,6 +8,8 @@ func _ready() -> void:
 	boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
 	for boid in boids:
 		boid.set_boids(boids)
+		print(boid.direction)
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

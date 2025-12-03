@@ -1,11 +1,13 @@
 extends Node3D
 
 @export var box_size : Vector3
-var boids : Array[Node3D]
+var boids : Array[Fishoid]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	boids.assign(get_children().map(func(c) : if c is Node3D : return c as Node3D))
+	boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
+	for boid in boids:
+		boid.set_boids(boids)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

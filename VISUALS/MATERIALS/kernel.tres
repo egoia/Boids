@@ -5,3 +5,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_3q85g")
+shader_parameter/fresnel_color = Vector3(1, 0.29, 0)
+shader_parameter/base_color = Vector3(1, 0.265, 0)
+shader_parameter/fresnel_amount = 0.9
+shader_parameter/glow_intensity = 3.1
+shader_parameter/base_alpha = 0.155

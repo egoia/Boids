@@ -5,6 +5,7 @@
 
 [node name="Fishoid" type="Node3D"]
 script = ExtResource("1_2eug1")
+speed = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

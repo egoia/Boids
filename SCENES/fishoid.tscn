@@ -1,17 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkk3f5go2v8e3"]
+[gd_scene load_steps=7 format=3 uid="uid://dkk3f5go2v8e3"]
 
 [ext_resource type="Script" uid="uid://dh3glaqxsnrlb" path="res://SCRIPT/fishoid.gd" id="1_2eug1"]
 [ext_resource type="ArrayMesh" uid="uid://cgim6wtt50t85" path="res://VISUALS/MODELS/fish.res" id="2_8c5cs"]
+[ext_resource type="Material" uid="uid://cyrawh4y7yd1s" path="res://VISUALS/MATERIALS/kernel_red.tres" id="2_cfvei"]
+[ext_resource type="Script" uid="uid://djjsywe0mjlk1" path="res://SCENES/random_material.gd" id="4_lwt71"]
+[ext_resource type="Material" uid="uid://bph7g8jxqupyi" path="res://VISUALS/MATERIALS/kernel.tres" id="5_y7wrp"]
+[ext_resource type="Material" uid="uid://dfvgw0oe4vfbn" path="res://VISUALS/MATERIALS/kernel_orange.tres" id="6_1o7v0"]
 
 [node name="Fishoid" type="Node3D"]
 script = ExtResource("1_2eug1")
-speed = 2.0
-steering_speed = 6.0
+speed = 10.0
+steering_speed = 0.9
+min_fov_angle = -0.8
 cohesion_distance = 5.0
-cohesion_factor = 1.0
-repulsion_distance = 2.0
-repulsion_factor = 0.321
+cohesion_factor = 0.775
+repulsion_factor = 1.0
+alignment_distance = 10.0
+alignment_factor = 0.52
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0.00731118)
 mesh = ExtResource("2_8c5cs")
+script = ExtResource("4_lwt71")
+materials = Array[Material]([ExtResource("5_y7wrp"), ExtResource("2_cfvei"), ExtResource("6_1o7v0")])

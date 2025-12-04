@@ -1,16 +1,20 @@
 extends Node3D
 
 @export var box_size : Vector3
+
+@export var boid_number : int = 20
 var boids : Array[Fishoid]
+
+
+const FISHOID = preload("res://SCENES/fishoid.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	for i in range(boid_number):
+		_spawn_boid()
 	boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
 	for boid in boids:
 		boid.set_boids(boids)
-		print(boid.direction)
-	
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -40,3 +44,16 @@ func _keep_in_bound(boid : Node3D) -> void :
 		new_pos.z = boid.global_position.z + box_size.z - PRECISION
 	
 	boid.global_position = new_pos
+	
+func _spawn_boid() -> void :
+	var boid_position = _random_point_in_box()
+	var boid = FISHOID.instantiate()
+	add_child(boid)
+	boid.global_position = boid_position
+	boid.rotation = Vector3(randf(), randf(), randf())*2*PI
+	
+func _random_point_in_box() -> Vector3:
+	var x = (randf()-0.5) * box_size.x;
+	var y = (randf()-0.5) * box_size.y
+	var z =(randf()-0.5) * box_size.z
+	return global_position + Vector3(x,y,z);

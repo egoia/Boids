@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cyrawh4y7yd1s"]
+
+[ext_resource type="Shader" uid="uid://caji8xdgr1yut" path="res://VISUALS/MATERIALS/kernel.gdshader" id="1_q6mvh"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_q6mvh")
+shader_parameter/fresnel_color = Vector3(0.915, 0.09, 0)
+shader_parameter/base_color = Vector3(0.915, 0.155, 0)
+shader_parameter/fresnel_amount = 0.9
+shader_parameter/glow_intensity = 2.0
+shader_parameter/base_alpha = 0.2

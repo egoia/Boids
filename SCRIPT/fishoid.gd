@@ -3,6 +3,7 @@ class_name Fishoid
 
 @export var  speed : float = 5.0
 @export var steering_speed = 2.0
+@export_range(-1,1) var min_fov_angle : float = -1 
 
 @export_group("Cohesion")
 @export var cohesion_distance : float = 1.0
@@ -56,20 +57,20 @@ func find_direction() -> Vector3 :
 func cohesion(boids : Array[Fishoid]) -> Vector3: 
 	if boids.size() == 0 :
 		return Vector3()
-	return boids.reduce(func(acc, b) : return acc+b.direction, Vector3())/boids.size()
+	return (boids.reduce(func(acc, b) : return acc+b.global_position, Vector3())/boids.size() - global_position).normalized()
 	
 func repulsion(boids : Array[Fishoid]) -> Vector3: 
 	if boids.size() == 0 :
 		return Vector3()
 	return -(boids.reduce(func(acc, b) : return b.global_position - global_position +acc, Vector3())/boids.size()).normalized()
 	
-func alignment(boids : Array[Fishoid]) -> Vector3: #TODO
+func alignment(boids : Array[Fishoid]) -> Vector3: 
 	if boids.size() == 0 :
 		return Vector3()
-	return Vector3.ZERO
+	return boids.reduce(func(acc, b) : return acc+b.direction, Vector3())/boids.size()
 	
-func is_in_sight(boid : Node3D) -> bool: #TODO
-	return true
+func is_in_sight(boid : Node3D) -> bool:
+	return direction.dot((boid.global_position - global_position).normalized())>min_fov_angle
 	
 func set_boids(boids : Array[Fishoid]) -> void:
 	self.boids = boids.filter(func(b) : return b!=self)

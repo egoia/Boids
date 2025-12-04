@@ -20,6 +20,7 @@ float fresnel(float amount, float intensity, vec3 normal, vec3 view)
 
 void fragment()
 {
+	vec3 color = base_color + sin(TIME);
 	float  fresnel = fresnel(fresnel_amount, glow_intensity,  NORMAL, VIEW) ;
 	ALBEDO = mix(base_color, fresnel* fresnel_color,fresnel) ;
 	ALPHA = fresnel + base_alpha;

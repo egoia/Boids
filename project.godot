@@ -22,6 +22,7 @@ enabled=PackedStringArray("res://addons/ridiculous_coding/plugin.cfg")
 [file_customization]
 
 folder_colors={
+"res://CUSTOM_RESSOURCES/": "purple",
 "res://SCENES/": "yellow",
 "res://SCRIPT/": "teal",
 "res://VISUALS/": "pink"

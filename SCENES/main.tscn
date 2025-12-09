@@ -32,9 +32,11 @@ environment = SubResource("Environment_jsldp")
 
 [node name="BoundingBox" type="Node3D" parent="."]
 script = ExtResource("1_xh1h4")
-box_size = Vector3(100, 50, 100)
-boid_number = 200
+box_size = Vector3(50, 25, 50)
+boid_spawn_number = 5
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.730162, -0.108065, 0.674674, 0, 0.987414, 0.158158, -0.683274, -0.115481, 0.720972, 50, 0, 50)
 current = true
+
+[connection signal="child_exiting_tree" from="BoundingBox" to="BoundingBox" method="_on_child_exiting_tree"]

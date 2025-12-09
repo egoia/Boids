@@ -1,21 +1,18 @@
 extends Node3D
 class_name Fishoid
 
-@export var  speed : float = 5.0
-@export var steering_speed = 2.0
-@export_range(-1,1) var min_fov_angle : float = -1 
-
-@export_group("Cohesion")
-@export var cohesion_distance : float = 1.0
-@export_range(0, 1) var cohesion_factor : float = 0
-
-@export_group("Repulsion")
-@export var repulsion_distance : float = 1.0
-@export_range(0, 1) var repulsion_factor : float = 0
-
-@export_group("Alignment")
-@export var alignment_distance : float = 1.0
-@export_range(0, 1) var alignment_factor : float = 0
+enum State{
+	BABY, ADULT, OLD
+}
+var birthdate : float
+var current_state : State 
+@export var  adult_age : float
+@export var old_age : float
+@export var death_age : float
+@export var baby_stats : BoidStats
+@export var adult_stats : BoidStats
+@export var old_stats : BoidStats
+@onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 
 
 
@@ -25,30 +22,51 @@ var boids : Array[Fishoid]
 
 func _ready() -> void:
 	direction  = -transform.basis.z
+	mesh_instance_3d.set_surface_override_material(0, baby_stats.material)
+	birthdate = Time.get_ticks_msec()/1000
+	current_state = State.BABY
+	
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var steering_direction = find_direction()
-	global_position += direction * speed * delta
-	direction += steering_speed * steering_direction * delta
+	var stats
+	match current_state :
+		State.OLD : stats = old_stats
+		State.ADULT : stats = adult_stats
+		State.BABY : stats = baby_stats
+		
+	var steering_direction = find_direction(stats)
+	global_position += direction * stats.speed * delta
+	direction += stats.steering_speed * steering_direction * delta
 	look_at(global_position + direction, transform.basis.y)
+	
+	if Time.get_ticks_msec()/1000 - birthdate > death_age:
+		queue_free()
+	if Time.get_ticks_msec()/1000 - birthdate > old_age and current_state != State.OLD:
+		current_state = State.OLD
+		mesh_instance_3d.set_surface_override_material(0, old_stats.material)
+	elif Time.get_ticks_msec()/1000 - birthdate > adult_age and current_state != State.ADULT:
+		current_state = State.ADULT
+		mesh_instance_3d.set_surface_override_material(0, adult_stats.material)
+	
 
-func find_direction() -> Vector3 :
+func find_direction(stats : BoidStats) -> Vector3 :
 	#filter with boid fov and distance
 	var alignment_boids : Array[Fishoid] = []
 	var repulsion_boids : Array[Fishoid] = []
 	var cohesion_boids : Array[Fishoid] = []
 	
 	for boid in boids : 
-		if(is_in_sight(boid)) :
-			if(global_position.distance_to(boid.global_position)<=alignment_distance):
+		if(is_in_sight(boid, stats)) :
+			if(global_position.distance_to(boid.global_position)<=stats.alignment_distance):
 				alignment_boids.append(boid)
-			if(global_position.distance_to(boid.global_position)<=repulsion_distance):
+			if(global_position.distance_to(boid.global_position)<=stats.repulsion_distance):
 				repulsion_boids.append(boid)
-			if(global_position.distance_to(boid.global_position)<=cohesion_distance):
+			if(global_position.distance_to(boid.global_position)<=stats.cohesion_distance):
 				cohesion_boids.append(boid)
 				
-	var target_direction = (cohesion_factor*cohesion(cohesion_boids) + alignment_factor*alignment(alignment_boids) + repulsion_factor*repulsion(repulsion_boids)).normalized()
+	var target_direction = (stats.cohesion_factor*cohesion(cohesion_boids) + stats.alignment_factor*alignment(alignment_boids) + stats.repulsion_factor*repulsion(repulsion_boids)).normalized()
 	if target_direction==Vector3.ZERO :
 		return Vector3.ZERO
 	var steering_direction = (target_direction - direction).normalized()
@@ -69,8 +87,8 @@ func alignment(boids : Array[Fishoid]) -> Vector3:
 		return Vector3()
 	return boids.reduce(func(acc, b) : return acc+b.direction, Vector3())/boids.size()
 	
-func is_in_sight(boid : Node3D) -> bool:
-	return direction.dot((boid.global_position - global_position).normalized())>min_fov_angle
+func is_in_sight(boid : Node3D, stats : BoidStats) -> bool:
+	return direction.dot((boid.global_position - global_position).normalized())>stats.min_fov_angle
 	
 func set_boids(boids : Array[Fishoid]) -> void:
 	self.boids = boids.filter(func(b) : return b!=self)

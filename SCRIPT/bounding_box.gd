@@ -2,22 +2,29 @@ extends Node3D
 
 @export var box_size : Vector3
 
-@export var boid_number : int = 20
+@export var max_boids_number : int = 200
+@export var boid_spawn_number : int = 20
+@export var boid_spawn_elpased_time : float = 2
 var boids : Array[Fishoid]
+var timer : float = 0
 
 
 const FISHOID = preload("res://SCENES/fishoid.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for i in range(boid_number):
-		_spawn_boid()
-	boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
-	for boid in boids:
-		boid.set_boids(boids)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	timer += delta
+	if timer>= boid_spawn_elpased_time && boids.size()<max_boids_number:
+		timer = 0
+		for i in range(boid_spawn_number):
+			_spawn_boid()
+		boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
+		for boid in boids:
+			boid.set_boids(boids)
 	for boid in boids:
 		_keep_in_bound(boid)
 
@@ -57,3 +64,9 @@ func _random_point_in_box() -> Vector3:
 	var y = (randf()-0.5) * box_size.y
 	var z =(randf()-0.5) * box_size.z
 	return global_position + Vector3(x,y,z);
+
+
+func _on_child_exiting_tree(node: Node) -> void:
+	boids.erase(node)
+	for boid in boids:
+		boid.set_boids(boids)

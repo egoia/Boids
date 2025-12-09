@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BoidStats" load_steps=3 format=3 uid="uid://dsyagqj2pb1g6"]
+
+[ext_resource type="Script" uid="uid://bhmo80bfb28ly" path="res://CUSTOM_RESSOURCES/boid_stats.gd" id="1_kb5j1"]
+[ext_resource type="Material" uid="uid://cyrawh4y7yd1s" path="res://VISUALS/MATERIALS/kernel_red.tres" id="1_p54s4"]
+
+[resource]
+script = ExtResource("1_kb5j1")
+speed = 10.0
+steering_speed = 0.9
+min_fov_angle = -0.6
+material = ExtResource("1_p54s4")
+cohesion_distance = 3.0
+cohesion_factor = 0.5
+repulsion_factor = 1.0
+alignment_distance = 6.0
+alignment_factor = 0.65
+metadata/_custom_type_script = "uid://bhmo80bfb28ly"

@@ -25,6 +25,7 @@ func _ready() -> void:
 	mesh_instance_3d.set_surface_override_material(0, baby_stats.material)
 	birthdate = Time.get_ticks_msec()/1000
 	current_state = State.BABY
+	scale =  baby_stats.size
 	
 	
 
@@ -43,12 +44,14 @@ func _process(delta: float) -> void:
 	
 	if Time.get_ticks_msec()/1000 - birthdate > death_age:
 		queue_free()
-	if Time.get_ticks_msec()/1000 - birthdate > old_age and current_state != State.OLD:
+	if Time.get_ticks_msec()/1000 - birthdate > old_age and current_state == State.ADULT:
 		current_state = State.OLD
 		mesh_instance_3d.set_surface_override_material(0, old_stats.material)
-	elif Time.get_ticks_msec()/1000 - birthdate > adult_age and current_state != State.ADULT:
+		scale = old_stats.size
+	if Time.get_ticks_msec()/1000 - birthdate > adult_age and current_state == State.BABY:
 		current_state = State.ADULT
 		mesh_instance_3d.set_surface_override_material(0, adult_stats.material)
+		scale = adult_stats.size
 	
 
 func find_direction(stats : BoidStats) -> Vector3 :

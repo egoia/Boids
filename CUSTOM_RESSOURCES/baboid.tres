@@ -7,7 +7,8 @@
 script = ExtResource("2_luo2d")
 speed = 15.0
 steering_speed = 5.0
-min_fov_angle = 0.10000000000000009
+size = Vector3(0.7, 0.7, 0.7)
+min_fov_angle = 0.10000000000000007
 material = ExtResource("1_oagny")
 cohesion_distance = 3.0
 cohesion_factor = 1.0

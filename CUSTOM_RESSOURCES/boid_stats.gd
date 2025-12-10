@@ -3,6 +3,7 @@ class_name BoidStats
 
 @export var  speed : float = 5.0
 @export var steering_speed = 2.0
+@export var size = Vector3(1,1,1)
 @export_range(-1,1) var min_fov_angle : float = -1 
 @export var material : Material
 

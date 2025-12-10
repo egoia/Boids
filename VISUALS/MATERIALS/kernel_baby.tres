@@ -5,8 +5,8 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_dr41g")
-shader_parameter/fresnel_color = Vector3(0.3, 0, 0.59)
+shader_parameter/fresnel_color = Vector3(0, 0, 1)
 shader_parameter/base_color = Vector3(0.055, 0, 2.16)
-shader_parameter/fresnel_amount = 3.0000000447036
-shader_parameter/glow_intensity = 2.0000000298024
+shader_parameter/fresnel_amount = 1.90000002831228
+shader_parameter/glow_intensity = 2.60000003874312
 shader_parameter/base_alpha = 0.78

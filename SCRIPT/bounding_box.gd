@@ -8,6 +8,10 @@ extends Node3D
 var boids : Array[Fishoid]
 var timer : float = 0
 
+var baby_count : int = 0
+var adult_count : int = 0
+var old_count : int = 0
+@onready var label: Label = $"../CanvasLayer/Label"
 
 const FISHOID = preload("res://SCENES/fishoid.tscn")
 
@@ -25,8 +29,16 @@ func _process(delta: float) -> void:
 		boids.assign(get_children().map(func(c) : if c is Fishoid : return c as Fishoid))
 		for boid in boids:
 			boid.set_boids(boids)
+	old_count = 0
+	adult_count = 0
+	baby_count = 0
 	for boid in boids:
 		_keep_in_bound(boid)
+		match boid.current_state : 
+			Fishoid.State.OLD : old_count+=1
+			Fishoid.State.ADULT : adult_count+=1
+			Fishoid.State.BABY : baby_count+=1
+		label.text = "Baby : " + str(baby_count) + "\n Adult : " + str(adult_count) + "\n Old : " + str(old_count)
 
 
 func _keep_in_bound(boid : Node3D) -> void : 

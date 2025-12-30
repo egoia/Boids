@@ -4,7 +4,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cgim6wtt50t85" path="res://VISUALS/MODELS/fish.res" id="2_8c5cs"]
 [ext_resource type="Resource" uid="uid://c4wgtnqkge7pj" path="res://CUSTOM_RESSOURCES/baboid.tres" id="2_bg8mm"]
 [ext_resource type="Material" uid="uid://cyrawh4y7yd1s" path="res://VISUALS/MATERIALS/kernel_red.tres" id="2_cfvei"]
-[ext_resource type="Script" path="res://SCENES/random_material.gd" id="3_1o7v0"]
+[ext_resource type="Script" uid="uid://djjsywe0mjlk1" path="res://SCRIPT/random_material.gd" id="3_1o7v0"]
 [ext_resource type="Resource" uid="uid://dsyagqj2pb1g6" path="res://CUSTOM_RESSOURCES/adultoid.tres" id="3_dmig1"]
 [ext_resource type="Resource" uid="uid://djwvj7vg7mjs6" path="res://CUSTOM_RESSOURCES/eldoid.tres" id="4_ymwh2"]
 [ext_resource type="Material" uid="uid://bph7g8jxqupyi" path="res://VISUALS/MATERIALS/kernel.tres" id="5_y7wrp"]
@@ -14,9 +14,9 @@
 
 [node name="Fishoid" type="Node3D"]
 script = ExtResource("1_2eug1")
-adult_age = 20.0
-old_age = 40.0
-death_age = 60.0
+adult_age = 25.0
+old_age = 60.0
+death_age = 90.0
 baby_stats = ExtResource("2_bg8mm")
 adult_stats = ExtResource("3_dmig1")
 old_stats = ExtResource("4_ymwh2")

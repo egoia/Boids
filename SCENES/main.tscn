@@ -39,4 +39,11 @@ boid_spawn_number = 5
 transform = Transform3D(0.730162, -0.108065, 0.674674, 0, 0.987414, 0.158158, -0.683274, -0.115481, 0.720972, 50, 0, 50)
 current = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [connection signal="child_exiting_tree" from="BoundingBox" to="BoundingBox" method="_on_child_exiting_tree"]

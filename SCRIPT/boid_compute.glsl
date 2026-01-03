@@ -1,8 +1,13 @@
 layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 
-//input positions
+//input positions and directions
 layout(set = 0, binding = 0, std430) readonly buffer InputBuffer {
 	vec3 input_vectors[];
+};
+
+//input states
+layout(set = 0, binding = 1, std430) readonly buffer StateInputBuffer {
+    int boid_states[];
 };
 
 
@@ -11,7 +16,7 @@ layout(set = 0, binding = 2, std430) writeonly buffer OutputBuffer {
 	vec3 output_directions[];
 };
 		
-layout(set = 0, binding = 3, std140) uniform Params {
+layout(set = 0, binding = 3, std140) uniform Stats {
 	float min_fov_angle;
 	float alignment_distance;
 	float alignment_factor;
@@ -21,21 +26,31 @@ layout(set = 0, binding = 3, std140) uniform Params {
 	float repulsion_distance;
 	float repulsion_factor;
 	float _pad;
-} params;
+} babyStats;
 
-struct t_boid_stats{
-	float alignment_distance;
-	float alignment_factor;
-	float cohesion_distance;
-	float cohesion_factor;
-	float repulsion_distance;
-	float repulsion_factor;
-};
+layout(set = 0, binding = 4, std140) uniform Stats {
+    float min_fov_angle;
+    float alignment_distance;
+    float alignment_factor;
+    float cohesion_distance;
 
-struct t_boid{
-	float position;
-	float direction;
-};
+    float cohesion_factor;
+    float repulsion_distance;
+    float repulsion_factor;
+    float _pad;
+} adultStats;
+
+layout(set = 0, binding = 5, std140) uniform Stats {
+    float min_fov_angle;
+    float alignment_distance;
+    float alignment_factor;
+    float cohesion_distance;
+
+    float cohesion_factor;
+    float repulsion_distance;
+    float repulsion_factor;
+    float _pad;
+} oldStats;
 
 bool is_in_sight(vec3 boid_position){
 	return dot(params.direction,normalize(boid_position - params.position))>params.min_fov_angle;
@@ -48,7 +63,7 @@ vec3 cohesion(t_boid boids, int count){
 		avg_pos+=boids[i].position;
 	}
 	avg_pos/=count;
-	return normalize(avg_pos - params.position);
+	return normalize(avg_pos - );
 }
 
 vec3 repulsion(t_boid boids, int count){
